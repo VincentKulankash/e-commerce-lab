@@ -1,4 +1,8 @@
-const ProductCard = ({ product }) => {
+import { useNavigate } from 'react-router-dom';
+
+const ProductCard = ({ product, onDelete }) => {
+  const navigate = useNavigate();
+
   return (
     <div className="product-card">
       <img
@@ -19,7 +23,7 @@ const ProductCard = ({ product }) => {
         </p>
 
         <p className="product-card-price">
-          ${product.price}
+          Ksh{product.price}
         </p>
 
         <p className="product-card-stock">
@@ -29,6 +33,24 @@ const ProductCard = ({ product }) => {
         <p className="product-card-rating">
           Rating: {product.rating}
         </p>
+
+        <button
+          className="btn-edit"
+          onClick={() => navigate(`/products/${product.id}/edit`)}
+        >
+          Edit
+        </button>
+
+        <button
+          className="btn-delete"
+          onClick={() => {
+            if (window.confirm(`Delete "${product.name}"?`)) {
+              onDelete(product.id);
+            }
+          }}
+        >
+          Delete
+        </button>
       </div>
     </div>
   );
@@ -36,4 +58,4 @@ const ProductCard = ({ product }) => {
 
 export default ProductCard;
 
-//Hii ni ya Imran 
+//Hii ni ya Imran
