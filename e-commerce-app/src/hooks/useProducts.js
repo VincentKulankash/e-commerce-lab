@@ -22,7 +22,7 @@ export const useProducts = () => {
     const getProduct = async (id) => {
         setLoading(true);
         try{
-            const data = await api.getProduct();
+            const data = await api.getProduct(id);
             return data;
         }catch (error) {
             setError(error.message);
@@ -75,18 +75,15 @@ export const useProducts = () => {
         }
     };
 
-    const searchProducts = async (query) => {
-        setLoading(true);
-        try{
-            const results = await api.searchProducts(query);
-            return results;
-        } catch(error){
-            setError(error.message);
-            throw error;
-        } finally {
-            setLoading(false);
-        }
-    };
+    const searchProducts = (query) => {
+    const lower = query.toLowerCase();
+    const results = products.filter(p =>
+        p.name.toLowerCase().includes(lower) ||
+        p.brand.toLowerCase().includes(lower) ||
+        p.category.toLowerCase().includes(lower)
+    );
+    return results;
+};
 
     useEffect (() => {
         fetchProducts();
@@ -106,4 +103,4 @@ export const useProducts = () => {
     };
 };
 
-export default useProducts; 
+export default useProducts;
